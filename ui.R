@@ -300,8 +300,8 @@ body = dashboardBody(
                                                       tags$strong('R code: '),
                                                       uiOutput('usMapOut2'),
                                                       br(),
-                                                      plotOutput('usMapOut1')
-                                                      ),
+                                                      div(style = "height: 500px; width: 700px",plotOutput('usMapOut1')
+                                                      )),
                                      
                                      conditionalPanel('input.mapsOp == "US Map - plotly"',
                                                       tags$strong('R code: '),
