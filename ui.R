@@ -11,12 +11,16 @@ library(ggplot2)
 library(EDAWR)
 library(plot3D)
 library(ggmap)
+#used for intro part
+library(datasets)
 
 header = dashboardHeader(title = 'Data Science')
 
 sidebar = dashboardSidebar(
   sidebarMenu(id = 'tabs',
               menuItem('Overview', tabName = 'overview', icon = icon("dashboard")),
+              menuItem('Graph for Singe Variable', tabName = 'VisualOne', 
+                       icon = icon('wpexplorer')),
               menuItem('Data Visualization', tabName = 'exp4', icon = icon('wpexplorer')),
               menuItem('Reshaping Data', tabName = 'exp1', icon = icon('wpexplorer')),
               menuItem('Combining Data Sets', tabName = 'exp2', icon = icon('gamepad'))
@@ -57,6 +61,53 @@ body = dashboardBody(
             h4('Packages used: dplyr, EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D.'),
             h4('The Protein-Protein Interaction Dataset is from the Warwick University - Molecular Organisation and Assembly in Cells.')
             ),
+    
+############ Data Visualization Introduction #######
+######Characterizing one single Variable######
+
+  tabItem(tabName = 'VisualOne',
+          # div(style="display: inline-block;vertical-align:top;",
+          #     tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
+          # ),
+          # div(style="display: inline-block;vertical-align:top;",
+          #     circleButton("info0",icon = icon("info"), status = "myClass",size = "xs")
+          # ),
+          br(),
+          sidebarLayout(
+            sidebarPanel(
+              ####select between plot and ggplot
+              selectInput(inputId="plotType", label="select Plot Type",
+                          choices = c('plot', 'ggplot'),
+                          selected = 'plot'),
+              
+              ####select datasets
+              selectInput(inputId="dataset", label="Select Dataset:", 
+                                     choices= c('cars', 'trees'), 
+                          selected = 'cars'),
+              
+              ####variable options for 'car' dataset
+              conditionalPanel(
+                condition = "input.dataset == 'cars'",
+                selectInput(inputId="carsVaraible", label="Select Variables",
+                            choices = c("speed", "dist"),
+                            selected = 'speed')
+              ),
+              
+              ####variable option for 'trees' dataset
+              conditionalPanel(
+                condition = "input.dataset == 'trees'",
+                selectInput(inputId="treesVaraible", label="Select Variables",
+                            choices = c("Girth", "Height", "Volume"),
+                            selected = 'Girth')
+              )
+                         ),
+            
+           
+            mainPanel()
+          )
+          ),
+
+          
 
 ############ Reshaping Data ############
     tabItem(tabName = 'exp1', 
