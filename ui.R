@@ -19,7 +19,7 @@ header = dashboardHeader(title = 'Data Science')
 sidebar = dashboardSidebar(
   sidebarMenu(id = 'tabs',
               menuItem('Overview', tabName = 'overview', icon = icon("dashboard")),
-              menuItem('Graph for Singe Variable', tabName = 'VisualOne', 
+              menuItem('Graph for Variables', tabName = 'VisualOne', 
                        icon = icon('wpexplorer')),
               menuItem('Data Visualization', tabName = 'exp4', icon = icon('wpexplorer')),
               menuItem('Reshaping Data', tabName = 'exp1', icon = icon('wpexplorer')),
@@ -72,38 +72,128 @@ body = dashboardBody(
           # div(style="display: inline-block;vertical-align:top;",
           #     circleButton("info0",icon = icon("info"), status = "myClass",size = "xs")
           # ),
-          br(),
-          sidebarLayout(
-            sidebarPanel(
-              ####select between plot and ggplot
-              selectInput(inputId="plotType", label="select Plot Type",
-                          choices = c('plot', 'ggplot'),
-                          selected = 'plot'),
-              
-              ####select datasets
-              selectInput(inputId="dataset", label="Select Dataset:", 
-                                     choices= c('cars', 'trees'), 
-                          selected = 'cars'),
-              
-              ####variable options for 'car' dataset
-              conditionalPanel(
-                condition = "input.dataset == 'cars'",
-                selectInput(inputId="carsVaraible", label="Select Variables",
-                            choices = c("speed", "dist"),
-                            selected = 'speed')
-              ),
-              
-              ####variable option for 'trees' dataset
-              conditionalPanel(
-                condition = "input.dataset == 'trees'",
-                selectInput(inputId="treesVaraible", label="Select Variables",
-                            choices = c("Girth", "Height", "Volume"),
-                            selected = 'Girth')
-              )
-                         ),
-            
-           
-            mainPanel()
+          
+          tabsetPanel(type = 'tabs',
+          ###### One Variable ######
+            tabPanel('Single Variable',
+                     h3(strong('One Variable Visualization')),
+                     br(),
+                     h4('This section illustrates R code for data 
+                        visulization includes plot() and ggplot() with one Variable'),
+                      
+                      br(),
+                      sidebarLayout(
+                        sidebarPanel(
+                          ####select between plot and ggplot
+                          selectInput(inputId="plotType", label="select Plot Type",
+                                      choices = c('plot', 'ggplot'),
+                                      selected = 'plot'),
+                          
+                          ####select datasets
+                          selectInput(inputId="dataset", label="Select Dataset:", 
+                                                 choices= c('cars', 'trees'), 
+                                      selected = 'cars'),
+                          
+                          ####variable options for 'car' dataset
+                          conditionalPanel(
+                            condition = "input.dataset == 'cars'",
+                            selectInput(inputId="carsVariable", label="Select Variables",
+                                        choices = c("speed", "dist"),
+                                        selected = 'speed')
+                          ),
+                          
+                          ####variable option for 'trees' dataset
+                          conditionalPanel(
+                            condition = "input.dataset == 'trees'",
+                            selectInput(inputId="treesVariable", label="Select Variables",
+                                        choices = c("Girth", "Height", "Volume"),
+                                        selected = 'Girth')
+                          )
+                                     ),
+                        
+                       
+                        mainPanel(
+                          fluidRow(
+                            column(width = 6, uiOutput(outputId="DensityoneCode")),
+                            column(width = 6, uiOutput(outputId="HistogramoneCode"))
+                          ),
+                          fluidRow(
+                            column(6,plotOutput(outputId="onescatter", width="300px",height="300px")),  
+                            column(6,plotOutput(outputId="onehist", width="300px",height="300px"))
+                          ),
+                          br(),
+                          br(),
+                          br(),
+                          br(),
+                          tags$head(tags$style("#qqCode{color: red}"
+                         )),
+                          
+                          fluidRow(
+                            column(width = 6, uiOutput(outputId="BarCode")),
+                            column(width = 6, textOutput(outputId="qqCode"))
+                          ),
+                          fluidRow(
+                            column(6,plotOutput(outputId="onebar", width="300px",height="300px")),  
+                            column(6,plotOutput(outputId="oneqq", width="300px",height="300px"))
+                          )
+                        )
+                      )
+            ),
+          
+          ###### Two Variable ######
+          tabPanel('Two Variables',
+                   h3(strong('Two Variables Visualization')),
+                   br(),
+                   h4('This section illustrates R code for data 
+                      visulization includes plot() and ggplot() with Two Variables'),
+                   
+                   br(),
+                   sidebarLayout(
+                     sidebarPanel(
+                       ####select continuous variable 1
+                       selectInput(inputId="continuous1", 
+                                   label="Select First Continuous Variable:",
+                                   choices= c('Sepal.Length', 
+                                              'Petal.Length'),
+                                   selected = 'Sepal.Length'),
+                       
+                       selectInput(inputId="continuous2", 
+                                   label="Select Second Continuous Variable:",
+                                   choices= c('Sepal.Width', 
+                                              'Petal.Width'),
+                                   selected = 'Sepal.Width'),
+                       
+                       selectInput(inputId="CategoryVar", 
+                                   label="Select Categorical Variable:",
+                                   choices= 'Species',
+                                   selected = 'Species')
+                     ),
+                     
+                     
+                     mainPanel(
+                       # fluidRow(
+                       #   column(width = 6, uiOutput(outputId="DensityoneCode")),
+                       #   column(width = 6, uiOutput(outputId="HistogramoneCode"))
+                       # ),
+                       # fluidRow(
+                       #   column(6,plotOutput(outputId="onescatter", width="300px",height="300px")),  
+                       #   column(6,plotOutput(outputId="onehist", width="300px",height="300px"))
+                       # ),
+                       # br(),
+                       # br(),
+                       # br(),
+                       # br(),
+                       # fluidRow(
+                       #   column(width = 6, uiOutput(outputId="BarCode")),
+                       #   column(width = 6, uiOutput(outputId="qqCode"))
+                       # ),
+                       # fluidRow(
+                       #   column(6,plotOutput(outputId="onebar", width="300px",height="300px")),  
+                       #   column(6,plotOutput(outputId="oneqq", width="300px",height="300px"))
+                       # )
+                     )
+                   )
+                   )
           )
           ),
 

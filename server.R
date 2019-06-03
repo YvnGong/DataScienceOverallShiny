@@ -11,6 +11,8 @@ library(plot3D)
 library(plotly)
 library(ggplot2)
 library(ggmap)
+#used for intro part
+library(datasets)
 
 shinyServer(function(input, output, session) {
   observeEvent(input$info0,{
@@ -32,7 +34,141 @@ shinyServer(function(input, output, session) {
   observeEvent(input$go2, {
     updateTabItems(session, 'tabs', 'exp4')
   })
+
+###########One Single Variable Plot##############
+  output$onescatter<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          plot(density(cars$speed), main = "Scatter Plot", xlab = input$carsVariable)
+        }
+        else if(input$carsVariable == 'dist'){
+          plot(density(cars$dist), main = "Scatter Plot", xlab = input$carsVariable)
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          plot(density(trees$Girth), main = "Scatter Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Height'){
+          plot(density(trees$Height), main = "Scatter Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Volume'){
+          plot(density(trees$Volume), main = "Scatter Plot", xlab = input$carsVariable)
+        }
+      }
+    })
   
+  output$onehist<-renderPlot({
+    if (input$dataset == 'cars'){
+      if (input$carsVariable == 'speed'){
+        hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$carsVariable == 'dist'){
+        hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+      }
+    }
+    else if (input$dataset == 'trees'){
+      if (input$treesVariable == 'Girth'){
+        hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$treesVariable == 'Height'){
+        hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$treesVariable == 'Volume'){
+        hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+      }
+    }
+  })
+    
+  output$onebar<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$carsVariable == 'dist'){
+          barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Height'){
+          barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Volume'){
+          barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+        }
+      }
+    })
+  
+  output$oneqq<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          qqnorm(cars$speed)
+          qqline(cars$speed, col='red')
+        }
+        else if(input$carsVariable == 'dist'){
+          qqnorm(cars$dist)
+          qqline(cars$dist, col='red')
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          qqnorm(trees$Girth)
+          qqline(trees$Girth, col='red')
+        }
+        else if(input$treesVariable == 'Height'){
+          qqnorm(trees$Height)
+          qqline(trees$Height, col='red')
+        }
+        else if(input$treesVariable == 'Volume'){
+          qqnorm(trees$Volume)
+          qqline(trees$Volume, col='red')
+        }
+      }
+    })
+  
+  output$DensityoneCode <- renderUI({
+    if (input$dataset == 'cars'){
+    tags$code('plot(density(', input$dataset, '$', input$carsVariable, '))')
+  }
+    else{
+    tags$code('plot(density(', input$dataset, '$', input$treesVariable, ')')
+    }
+    })
+  
+  output$HistogramoneCode <- renderUI({
+    if (input$dataset == 'cars'){
+      tags$code('hist(', input$dataset, '$', input$carsVariable, ')')
+    }
+    else{
+      tags$code('hist(', input$dataset, '$', input$treesVariable, ')')
+    }
+  })
+  
+  output$BarCode <- renderUI({
+    if (input$dataset == 'cars'){
+      tags$code('barplot(', input$dataset, '$', input$carsVariable, ')')
+    }
+    else{
+      tags$code('barplot(', input$dataset, '$', input$treesVariable, ')')
+    }
+  })
+  
+  output$qqCode <- renderText({
+    if (input$dataset == 'cars'){
+      paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
+            '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+    }
+    else{
+      paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
+                'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+    }
+  })
 ############ Reshaping Data ############
   # observeEvent(input$knob1, {
   #   updateKnobInput(session, inputId = 'knob2', label = 'Select the Maximum Value for the First Column', value = input$knob1)
