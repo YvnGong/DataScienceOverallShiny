@@ -169,6 +169,54 @@ shinyServer(function(input, output, session) {
                 'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
     }
   })
+  
+  
+  output$twoscatter<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(aes(Sepal.Length, Petal.Length), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(aes(Sepal.Length, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(aes(Sepal.Width, Petal.Length), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+    }
+  })
+  
+  
+  output$sunflower<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        sunflowerplot(Sepal.Length~Petal.Length, data=iris)
+      }
+      else if(input$continuous2=='Petal.Width'){
+        sunflowerplot(Sepal.Length~Petal.Width, data=iris)
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        sunflowerplot(Sepal.Width~Petal.Length, data=iris)
+      }
+      else if(input$continuous2=='Petal.Width'){
+        sunflowerplot(Sepal.Width~Petal.Width, data=iris)
+      }
+    }
+  })
+  
+  
+  
+  
 ############ Reshaping Data ############
   # observeEvent(input$knob1, {
   #   updateKnobInput(session, inputId = 'knob2', label = 'Select the Maximum Value for the First Column', value = input$knob1)

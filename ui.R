@@ -145,23 +145,23 @@ body = dashboardBody(
                    h3(strong('Two Variables Visualization')),
                    br(),
                    h4('This section illustrates R code for data 
-                      visulization includes plot() and ggplot() with Two Variables'),
+                      visulization uses ggplot() with Two Variables'),
                    
                    br(),
                    sidebarLayout(
                      sidebarPanel(
                        ####select continuous variable 1
                        selectInput(inputId="continuous1", 
-                                   label="Select First Continuous Variable:",
+                                   label="Select First Continuous Variable as X:",
                                    choices= c('Sepal.Length', 
-                                              'Petal.Length'),
+                                              'Sepal.Width'),
                                    selected = 'Sepal.Length'),
                        
                        selectInput(inputId="continuous2", 
-                                   label="Select Second Continuous Variable:",
-                                   choices= c('Sepal.Width', 
+                                   label="Select Second Continuous Variable as Y:",
+                                   choices= c('Petal.Length', 
                                               'Petal.Width'),
-                                   selected = 'Sepal.Width'),
+                                   selected = 'Petal.Length'),
                        
                        selectInput(inputId="CategoryVar", 
                                    label="Select Categorical Variable:",
@@ -171,26 +171,10 @@ body = dashboardBody(
                      
                      
                      mainPanel(
-                       # fluidRow(
-                       #   column(width = 6, uiOutput(outputId="DensityoneCode")),
-                       #   column(width = 6, uiOutput(outputId="HistogramoneCode"))
-                       # ),
-                       # fluidRow(
-                       #   column(6,plotOutput(outputId="onescatter", width="300px",height="300px")),  
-                       #   column(6,plotOutput(outputId="onehist", width="300px",height="300px"))
-                       # ),
-                       # br(),
-                       # br(),
-                       # br(),
-                       # br(),
-                       # fluidRow(
-                       #   column(width = 6, uiOutput(outputId="BarCode")),
-                       #   column(width = 6, uiOutput(outputId="qqCode"))
-                       # ),
-                       # fluidRow(
-                       #   column(6,plotOutput(outputId="onebar", width="300px",height="300px")),  
-                       #   column(6,plotOutput(outputId="oneqq", width="300px",height="300px"))
-                       # )
+                       fluidRow(
+                         column(6,plotOutput(outputId="twoscatter")),
+                         column(6,plotOutput(outputId="sunflower"))
+                       )
                      )
                    )
                    )
